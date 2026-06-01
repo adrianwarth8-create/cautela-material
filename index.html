@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sistema de Cautela</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="login">
+<h2>Login</h2>
+
+<input id="usuario" placeholder="Usuário">
+<input id="senha" type="password" placeholder="Senha">
+
+<button onclick="entrar()">Entrar</button>
+</div>
+
+<div id="sistema" style="display:none">
+
+<h1>Sistema de Cautela</h1>
+
+<h2>Militares</h2>
+
+<input id="militarNome" placeholder="Nome">
+
+<button onclick="cadastrarMilitar()">
+Cadastrar Militar
+</button>
+
+<ul id="listaMilitares"></ul>
+
+<hr>
+
+<h2>Materiais</h2>
+
+<input id="materialNome" placeholder="Material">
+<input id="materialQtd" type="number" placeholder="Quantidade">
+
+<button onclick="cadastrarMaterial()">
+Cadastrar Material
+</button>
+
+<ul id="listaMateriais"></ul>
+
+<hr>
+
+<h2>Nova Cautela</h2>
+
+<select id="militarSelect"></select>
+
+<select id="materialSelect"></select>
+
+<input id="qtdCautela"
+type="number"
+placeholder="Quantidade">
+
+<button onclick="gerarCautela()">
+Gerar Cautela
+</button>
+
+<ul id="listaCautelas"></ul>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
