@@ -1,0 +1,25 @@
+body{
+font-family:Arial;
+padding:20px;
+background:#f4f4f4;
+}
+
+input,select{
+display:block;
+margin:10px 0;
+padding:10px;
+width:300px;
+}
+
+button{
+padding:10px;
+background:#006400;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+ul{
+background:white;
+padding:10px;
+}
