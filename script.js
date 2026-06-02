@@ -267,3 +267,58 @@ Descautelar
 }
 
 renderizar();
+
+async function gerarPdfUltimaCautela() {
+
+if (cautelas.length === 0) {
+    alert("Nenhuma cautela cadastrada.");
+    return;
+}
+
+const cautela = cautelas[cautelas.length - 1];
+
+const { jsPDF } = window.jspdf;
+
+const doc = new jsPDF();
+
+doc.setFontSize(16);
+doc.text("TERMO DE CAUTELA", 70, 20);
+
+doc.setFontSize(12);
+
+doc.text(
+`Militar: ${cautela.militar}`,
+20,
+50
+);
+
+doc.text(
+`Material: ${cautela.material}`,
+20,
+70
+);
+
+doc.text(
+`Quantidade: ${cautela.qtd}`,
+20,
+90
+);
+
+doc.text(
+`Data: ${cautela.data}`,
+20,
+110
+);
+
+doc.text(
+"Assinatura do Militar:",
+20,
+160
+);
+
+doc.line(20,170,120,170);
+
+doc.save(
+`Cautela-${cautela.militar}.pdf`
+);
+}
