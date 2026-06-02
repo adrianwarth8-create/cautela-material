@@ -7,7 +7,8 @@ JSON.parse(localStorage.getItem("materiais")) || [];
 let cautelas =
 JSON.parse(localStorage.getItem("cautelas")) || [];
 
-function salvar(){
+function salvar() {
+
 localStorage.setItem(
 "militares",
 JSON.stringify(militares)
@@ -26,139 +27,224 @@ JSON.stringify(cautelas)
 renderizar();
 }
 
-function entrar(){
+function entrar() {
 
-let u=document.getElementById("usuario").value;
-let s=document.getElementById("senha").value;
+let u =
+document.getElementById("usuario").value;
 
-if(u==="admin" && s==="123"){
-document.getElementById("login").style.display="none";
-document.getElementById("sistema").style.display="block";
+let s =
+document.getElementById("senha").value;
+
+if (u === "admin" && s === "123") {
+
+document.getElementById("login").style.display =
+"none";
+
+document.getElementById("sistema").style.display =
+"block";
+
+renderizar();
+
+} else {
+
+alert("Usuário ou senha incorretos");
+
 }
 }
 
-function cadastrarMilitar(){
+function cadastrarMilitar() {
 
-let nome=
+let nome =
 document.getElementById("militarNome").value;
 
+if (!nome) return;
+
 militares.push(nome);
+
+document.getElementById("militarNome").value = "";
 
 salvar();
 }
 
-function cadastrarMaterial(){
+function cadastrarMaterial() {
 
-let nome=
+let nome =
 document.getElementById("materialNome").value;
 
-let qtd=
+let qtd =
 Number(
 document.getElementById("materialQtd").value
 );
+
+if (!nome || qtd <= 0) return;
 
 materiais.push({
 nome,
 qtd
 });
 
+document.getElementById("materialNome").value = "";
+document.getElementById("materialQtd").value = "";
+
 salvar();
 }
 
-function gerarCautela(){
+function gerarCautela() {
 
-let militar=
+let militar =
 document.getElementById("militarSelect").value;
 
-let material=
+let material =
 document.getElementById("materialSelect").value;
 
-let qtd=
+let qtd =
 Number(
 document.getElementById("qtdCautela").value
 );
 
+let materialObj =
+materiais.find(
+m => m.nome === material
+);
+
+if (!materialObj) {
+alert("Material não encontrado");
+return;
+}
+
+if (qtd <= 0) {
+alert("Quantidade inválida");
+return;
+}
+
+if (materialObj.qtd < qtd) {
+alert("Estoque insuficiente");
+return;
+}
+
+materialObj.qtd -= qtd;
+
 cautelas.push({
+id: Date.now(),
 militar,
 material,
 qtd,
-data:new Date().toLocaleDateString()
+data: new Date().toLocaleDateString()
 });
+
+document.getElementById("qtdCautela").value = "";
 
 salvar();
 }
 
-function renderizar(){
+function descautelar(id) {
 
-let lm=
+let cautela =
+cautelas.find(
+c => c.id === id
+);
+
+if (!cautela) return;
+
+let material =
+materiais.find(
+m => m.nome === cautela.material
+);
+
+if (material) {
+
+material.qtd += cautela.qtd;
+
+}
+
+cautelas =
+cautelas.filter(
+c => c.id !== id
+);
+
+salvar();
+
+alert("Material devolvido com sucesso!");
+}
+
+function renderizar() {
+
+let lm =
 document.getElementById("listaMilitares");
 
-if(lm){
+if (lm) {
 
-lm.innerHTML="";
+lm.innerHTML = "";
 
-militares.forEach(m=>{
+militares.forEach(m => {
 
-lm.innerHTML+=`<li>${m}</li>`;
+lm.innerHTML += `
+<li>${m}</li>
+`;
 
 });
 }
 
-let lmat=
+let lmat =
 document.getElementById("listaMateriais");
 
-if(lmat){
+if (lmat) {
 
-lmat.innerHTML="";
+lmat.innerHTML = "";
 
-materiais.forEach(m=>{
+materiais.forEach(m => {
 
-lmat.innerHTML+=
-`<li>${m.nome} - ${m.qtd}</li>`;
+lmat.innerHTML += `
+<li>
+${m.nome} - Estoque: ${m.qtd}
+</li>
+`;
 
 });
 }
 
-let sm=
+let sm =
 document.getElementById("militarSelect");
 
-if(sm){
+if (sm) {
 
-sm.innerHTML="";
+sm.innerHTML = "";
 
-militares.forEach(m=>{
+militares.forEach(m => {
 
-sm.innerHTML+=
-`<option>${m}</option>`;
+sm.innerHTML += `
+<option>${m}</option>
+`;
 
 });
 }
 
-let sMat=
+let sMat =
 document.getElementById("materialSelect");
 
-if(sMat){
+if (sMat) {
 
-sMat.innerHTML="";
+sMat.innerHTML = "";
 
-materiais.forEach(m=>{
+materiais.forEach(m => {
 
-sMat.innerHTML+=
-`<option>${m.nome}</option>`;
+sMat.innerHTML += `
+<option>${m.nome}</option>
+`;
 
 });
 }
 
-let lc=
+let lc =
 document.getElementById("listaCautelas");
 
-if(lc){
+if (lc) {
 
-lc.innerHTML="";
+lc.innerHTML = "";
 
-cautelas.forEach(c=>{
+cautelas.forEach(c => {
 
-lc.innerHTML+=`
+lc.innerHTML += `
 <li>
 ${c.militar}
 -
@@ -167,6 +253,11 @@ ${c.material}
 ${c.qtd}
 -
 ${c.data}
+
+<button onclick="descautelar(${c.id})">
+Descautelar
+</button>
+
 </li>
 `;
 
