@@ -242,6 +242,7 @@ if (lc) {
 
 lc.innerHTML = "";
 
+  console.log(cautelas);
 cautelas.forEach(c => {
 
 lc.innerHTML += `
