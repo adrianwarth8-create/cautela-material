@@ -181,6 +181,7 @@ lm.innerHTML = "";
 militares.forEach(m => {
 
 lm.innerHTML += `
+
 <li>${m}</li>
 `;
 
@@ -197,6 +198,7 @@ lmat.innerHTML = "";
 materiais.forEach(m => {
 
 lmat.innerHTML += `
+
 <li>
 ${m.nome} - Estoque: ${m.qtd}
 </li>
@@ -215,6 +217,7 @@ sm.innerHTML = "";
 militares.forEach(m => {
 
 sm.innerHTML += `
+
 <option>${m}</option>
 `;
 
@@ -231,58 +234,96 @@ sMat.innerHTML = "";
 materiais.forEach(m => {
 
 sMat.innerHTML += `
+
 <option>${m.nome}</option>
 `;
 
 });
 }
 
-function descautelar(id) {
+let lc =
+document.getElementById("listaCautelas");
 
-let cautela =
-cautelas.find(
-c => c.id === id
-);
+if (lc) {
 
-if (!cautela) return;
+lc.innerHTML = "";
 
-let material =
-materiais.find(
-m => m.nome === cautela.material
-);
+cautelas.forEach((c, index) => {
 
-if (material) {
+if (!c.id) {
+c.id = Date.now() + index;
+}
 
-material.qtd += cautela.qtd;
+if (!c.status) {
+c.status = "ATIVA";
+}
+
+let li = document.createElement("li");
+
+li.innerHTML = ` <b>${c.militar}</b>
+------------------------------------
+
+## ${c.material}
+
+## Qtd: ${c.qtd}
+
+## Retirada: ${c.data}
+
+Status: ${c.status}
+`;
+
+if (c.status === "DEVOLVIDA") {
+
+li.innerHTML += `<br>
+Devolvido em: ${c.dataDevolucao}`;
+
+} else {
+
+let btn =
+document.createElement("button");
+
+btn.textContent =
+"Descautelar";
+
+btn.onclick = function () {
+descautelar(c.id);
+};
+
+li.appendChild(btn);
+}
+
+lc.appendChild(li);
+
+});
 
 }
 
-cautela.status = "DEVOLVIDA";
-
-cautela.dataDevolucao =
-new Date().toLocaleDateString();
-
-salvar();
-
-alert("Material devolvido com sucesso!");
 }
+
 renderizar();
 
 async function gerarPdfUltimaCautela() {
 
 if (cautelas.length === 0) {
-    alert("Nenhuma cautela cadastrada.");
-    return;
+alert("Nenhuma cautela cadastrada.");
+return;
 }
 
-const cautela = cautelas[cautelas.length - 1];
+const cautela =
+cautelas[cautelas.length - 1];
 
-const { jsPDF } = window.jspdf;
+const { jsPDF } =
+window.jspdf;
 
-const doc = new jsPDF();
+const doc =
+new jsPDF();
 
 doc.setFontSize(16);
-doc.text("TERMO DE CAUTELA", 70, 20);
+doc.text(
+"TERMO DE CAUTELA",
+70,
+20
+);
 
 doc.setFontSize(12);
 
@@ -316,7 +357,12 @@ doc.text(
 160
 );
 
-doc.line(20,170,120,170);
+doc.line(
+20,
+170,
+120,
+170
+);
 
 doc.save(
 `Cautela-${cautela.militar}.pdf`
