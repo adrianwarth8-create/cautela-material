@@ -35,7 +35,7 @@ document.getElementById("usuario").value;
 let s =
 document.getElementById("senha").value;
 
-if (u === "admin" && s === "123") {
+if (u === "farmacia" && s === "2356") {
 
 document.getElementById("login").style.display =
 "none";
