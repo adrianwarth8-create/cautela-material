@@ -129,7 +129,9 @@ id: Date.now(),
 militar,
 material,
 qtd,
-data: new Date().toLocaleDateString()
+data: new Date().toLocaleDateString(),
+status: "ATIVA",
+dataDevolucao: ""
 });
 
 document.getElementById("qtdCautela").value = "";
@@ -157,10 +159,10 @@ material.qtd += cautela.qtd;
 
 }
 
-cautelas =
-cautelas.filter(
-c => c.id !== id
-);
+cautela.status = "DEVOLVIDA";
+
+cautela.dataDevolucao =
+new Date().toLocaleDateString();
 
 salvar();
 
@@ -235,37 +237,35 @@ sMat.innerHTML += `
 });
 }
 
-let lc =
-document.getElementById("listaCautelas");
+function descautelar(id) {
 
-if (lc) {
+let cautela =
+cautelas.find(
+c => c.id === id
+);
 
-lc.innerHTML = "";
+if (!cautela) return;
 
-  console.log(cautelas);
-cautelas.forEach(c => {
+let material =
+materiais.find(
+m => m.nome === cautela.material
+);
 
-lc.innerHTML += `
-<li>
-${c.militar}
--
-${c.material}
--
-${c.qtd}
--
-${c.data}
+if (material) {
 
-<button onclick="descautelar(${c.id})">
-Descautelar
-</button>
+material.qtd += cautela.qtd;
 
-</li>
-`;
-
-});
-}
 }
 
+cautela.status = "DEVOLVIDA";
+
+cautela.dataDevolucao =
+new Date().toLocaleDateString();
+
+salvar();
+
+alert("Material devolvido com sucesso!");
+}
 renderizar();
 
 async function gerarPdfUltimaCautela() {
