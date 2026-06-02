@@ -262,15 +262,11 @@ c.status = "ATIVA";
 
 let li = document.createElement("li");
 
-li.innerHTML = ` <b>${c.militar}</b>
-------------------------------------
-
-## ${c.material}
-
-## Qtd: ${c.qtd}
-
-## Retirada: ${c.data}
-
+li.innerHTML = `
+<b>${c.militar}</b><br>
+Material: ${c.material}<br>
+Qtd: ${c.qtd}<br>
+Retirada: ${c.data}<br>
 Status: ${c.status}
 `;
 
