@@ -1,3 +1,5 @@
+alert("script carregou");
+
 let militares =
 JSON.parse(localStorage.getItem("militares")) || [];
 
