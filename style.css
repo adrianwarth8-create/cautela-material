@@ -1,25 +1,81 @@
 body{
-font-family:Arial;
-padding:20px;
-background:#f4f4f4;
+font-family: Arial, sans-serif;
+padding: 20px;
+background: #f4f4f4;
+margin: 0;
 }
 
-input,select{
-display:block;
-margin:10px 0;
-padding:10px;
-width:300px;
+h1{
+text-align: center;
+color: #006400;
+}
+
+h2{
+color: #333;
+border-bottom: 2px solid #006400;
+padding-bottom: 5px;
+}
+
+#login,
+#sistema{
+background: white;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+max-width: 900px;
+margin: auto;
+}
+
+input,
+select{
+display: block;
+width: 100%;
+max-width: 400px;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 5px;
+box-sizing: border-box;
 }
 
 button{
-padding:10px;
-background:#006400;
-color:white;
-border:none;
-cursor:pointer;
+padding: 10px 15px;
+background: #006400;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+margin: 5px;
 }
 
+button:hover
+
 ul{
-background:white;
-padding:10px;
+list-style: none;
+padding: 0;
+}
+
+li{
+background: #fff;
+padding: 12px;
+margin-bottom: 10px;
+border-left: 5px solid #006400;
+border-radius: 5px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+hr{
+margin: 25px 0;
+border: none;
+border-top: 1px solid #ddd;
+}
+
+.status-ativa{
+color: green;
+font-weight: bold;
+}
+
+.status-devolvida{
+color: red;
+font-weight: bold;
 }
