@@ -56,8 +56,6 @@ alert("Usuário ou senha incorretos");
 
 async function cadastrarMilitar() {
 
-alert("Botão clicado");
-
 let nome =
 document.getElementById("militarNome").value;
 
@@ -66,7 +64,11 @@ alert("Digite um nome");
 return;
 }
 
+alert("Passou da validação");
+
 try {
+
+alert("Tentando salvar...");
 
 await addDoc(
 collection(db, "militares"),
@@ -79,17 +81,15 @@ alert("Militar salvo no Firebase!");
 
 } catch (erro) {
 
-alert(
-"ERRO:\n" +
-erro.name +
-"\n\n" +
-erro.message
-);
+alert(JSON.stringify(erro));
+
+alert(erro);
+
+alert(erro.message);
 
 }
 
 }
-
 function cadastrarMaterial() {
 
 let nome =
