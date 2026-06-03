@@ -4,29 +4,48 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sistema de Cautela</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
 <div id="login">
+
 <h2>Login</h2>
 
 <input id="usuario" placeholder="Usuário">
-<input id="senha" type="password" placeholder="Senha">
 
-<button onclick="entrar()">Entrar</button>
+<input
+id="senha"
+type="password"
+placeholder="Senha">
+
+<button onclick="entrar()">
+Entrar
+</button>
+
 </div>
 
 <div id="sistema" style="display:none">
 
 <div class="cabecalho">
-<img src="brasao.png" alt="Brasão 3º GAC AP">
+
+<img
+src="brasao.png"
+alt="Brasão 3º GAC AP">
+
 <h1>Sistema de Cautela</h1>
+
 </div>
+
+<hr>
 
 <h2>Militares</h2>
 
-<input id="militarNome" placeholder="Nome">
+<input
+id="militarNome"
+placeholder="Nome do Militar">
 
 <button onclick="cadastrarMilitar()">
 Cadastrar Militar
@@ -38,15 +57,19 @@ placeholder="Pesquisar Militar"
 onkeyup="filtrarMilitares()">
 
 <ul id="listaMilitares"></ul>
-  
-<ul id="listaMilitares"></ul>
 
 <hr>
 
 <h2>Materiais</h2>
 
-<input id="materialNome" placeholder="Material">
-<input id="materialQtd" type="number" placeholder="Quantidade">
+<input
+id="materialNome"
+placeholder="Nome do Material">
+
+<input
+id="materialQtd"
+type="number"
+placeholder="Quantidade">
 
 <button onclick="cadastrarMaterial()">
 Cadastrar Material
@@ -58,8 +81,6 @@ placeholder="Pesquisar Material"
 onkeyup="filtrarMateriais()">
 
 <ul id="listaMateriais"></ul>
-  
-<ul id="listaMateriais"></ul>
 
 <hr>
 
@@ -69,7 +90,8 @@ onkeyup="filtrarMateriais()">
 
 <select id="materialSelect"></select>
 
-<input id="qtdCautela"
+<input
+id="qtdCautela"
 type="number"
 placeholder="Quantidade">
 
@@ -81,23 +103,33 @@ Gerar Cautela
 Gerar PDF
 </button>
 
+<hr>
+
+<h2>Cautelas</h2>
+
 <input
 id="pesquisaCautela"
 placeholder="Pesquisar Cautela"
 onkeyup="filtrarCautelas()">
 
 <ul id="listaCautelas"></ul>
-  
-<ul id="listaCautelas"></ul>
 
 </div>
 
+<!-- PDF -->
+
 <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-  
-<script type="module" src="firebase.js"></script>
-  
+
+<!-- QR Code -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  
+
+<!-- Firebase -->
+
+<script type="module" src="firebase.js"></script>
+
+<!-- Sistema -->
+
 <script src="script.js?v=999"></script>
 
 </body>
