@@ -77,6 +77,10 @@ nome: nome
 }
 );
 
+document.getElementById("militarNome").value = "";
+
+await carregarMilitaresFirebase();
+
 alert("Militar salvo no Firebase!");
 
 } catch (erro) {
@@ -507,8 +511,6 @@ erro.message
 }
 
 }
-
-carregarMilitaresFirebase();
 
 function gerarPdfCautela(id) {
 
