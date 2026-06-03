@@ -209,6 +209,88 @@ alert("Militar excluído com sucesso!");
 
 }
 
+function excluirMaterial(nome) {
+
+if (!confirm("Deseja excluir o material?")) {
+return;
+}
+
+materiais = materiais.filter(
+m => m.nome !== nome
+);
+
+salvar();
+
+alert("Material excluído!");
+
+}
+
+function filtrarMilitares() {
+
+let filtro =
+document.getElementById(
+"pesquisaMilitar"
+).value.toLowerCase();
+
+document.querySelectorAll(
+"#listaMilitares li"
+).forEach(li => {
+
+li.style.display =
+li.textContent
+.toLowerCase()
+.includes(filtro)
+? ""
+: "none";
+
+});
+
+}
+
+function filtrarMateriais() {
+
+let filtro =
+document.getElementById(
+"pesquisaMaterial"
+).value.toLowerCase();
+
+document.querySelectorAll(
+"#listaMateriais li"
+).forEach(li => {
+
+li.style.display =
+li.textContent
+.toLowerCase()
+.includes(filtro)
+? ""
+: "none";
+
+});
+
+}
+
+function filtrarCautelas() {
+
+let filtro =
+document.getElementById(
+"pesquisaCautela"
+).value.toLowerCase();
+
+document.querySelectorAll(
+"#listaCautelas li"
+).forEach(li => {
+
+li.style.display =
+li.textContent
+.toLowerCase()
+.includes(filtro)
+? ""
+: "none";
+
+});
+
+}
+
 function renderizar() {
 
 let lm =
@@ -256,13 +338,35 @@ lmat.innerHTML = "";
 materiais.forEach(m => {
 
 lmat.innerHTML += `
+<li
+style="
+list-style:none;
+margin-bottom:10px;
+padding:10px;
+background:white;
+border-radius:8px;
+border:1px solid #ccc;
+">
 
-<li>
-${m.nome} - Estoque: ${m.qtd}
+<b>${m.nome}</b><br>
+
+Estoque: ${m.qtd}
+
+<button
+style="
+background:red;
+float:right;
+"
+onclick="excluirMaterial('${m.nome}')"
+>
+🗑️
+</button>
+
 </li>
 `;
 
 });
+
 }
 
 let sm =
