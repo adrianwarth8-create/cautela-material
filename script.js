@@ -410,54 +410,65 @@ if (lc) {
 
 lc.innerHTML = "";
 
-cautelas.forEach((c, index) => {
+cautelas.forEach((c) => {
 
-if (!c.id) {
-c.id = Date.now() + index;
+lc.innerHTML += `
+<li
+style="
+list-style:none;
+margin-bottom:15px;
+padding:15px;
+background:white;
+border-radius:10px;
+border:1px solid #ccc;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+">
+
+<b>👤 ${c.militar}</b><br><br>
+
+📦 Material: ${c.material}<br>
+
+🔢 Quantidade: ${c.qtd}<br>
+
+📅 Retirada: ${c.data}<br>
+
+📌 Status: ${c.status}
+
+${c.dataDevolucao ?
+`<br>✅ Devolvido em: ${c.dataDevolucao}`
+: ""
 }
 
-if (!c.status) {
-c.status = "ATIVA";
+<br><br>
+
+<button
+onclick="gerarPdfUltimaCautela()">
+📄 PDF
+</button>
+
+${
+c.status !== "DEVOLVIDA"
+?
+`
+<button
+onclick="descautelar(${c.id})">
+↩️ Descautelar
+</button>
+`
+:
+""
 }
 
-let li = document.createElement("li");
+<button disabled>
+📱 QR Code
+</button>
 
-li.innerHTML = `
-<b>${c.militar}</b><br>
-Material: ${c.material}<br>
-Qtd: ${c.qtd}<br>
-Retirada: ${c.data}<br>
-Status: ${c.status}
+</li>
 `;
-
-if (c.status === "DEVOLVIDA") {
-
-li.innerHTML += `<br>
-Devolvido em: ${c.dataDevolucao}`;
-
-} else {
-
-let btn =
-document.createElement("button");
-
-btn.textContent =
-"Descautelar";
-
-btn.onclick = function () {
-descautelar(c.id);
-};
-
-li.appendChild(btn);
-}
-
-lc.appendChild(li);
 
 });
 
 }
-
-}
-
 async function carregarMilitaresFirebase() {
 
 try {
