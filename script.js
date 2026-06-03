@@ -193,6 +193,22 @@ salvar();
 alert("Material devolvido com sucesso!");
 }
 
+function excluirMilitar(nome) {
+
+if (!confirm("Deseja excluir o militar " + nome + "?")) {
+return;
+}
+
+militares = militares.filter(
+m => m !== nome
+);
+
+salvar();
+
+alert("Militar excluído com sucesso!");
+
+}
+
 function renderizar() {
 
 let lm =
@@ -205,13 +221,31 @@ lm.innerHTML = "";
 militares.forEach(m => {
 
 lm.innerHTML += `
+<li>
 
-<li>${m}</li>
+<button
+onclick="
+document.getElementById('militarSelect').value='${m}'
+">
+${m}
+</button>
+
+<button
+onclick="excluirMilitar('${m}')"
+style="
+background:red;
+margin-left:10px;
+"
+>
+🗑️
+</button>
+
+</li>
 `;
 
 });
-}
 
+}
 let lmat =
 document.getElementById("listaMateriais");
 
