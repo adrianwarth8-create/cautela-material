@@ -1,712 +1,340 @@
-alert("BEM-VINDO");
+/**********************
+ * SISTEMA CAUTELA - FIREBASE ONLY
+ **********************/
 
-let militares =
-JSON.parse(localStorage.getItem("militares")) || [];
+let militares = [];
+let materiais = [];
+let cautelas = [];
 
-let materiais =
-JSON.parse(localStorage.getItem("materiais")) || [];
-
-let cautelas =
-JSON.parse(localStorage.getItem("cautelas")) || [];
-
-function salvar() {
-
-localStorage.setItem(
-"militares",
-JSON.stringify(militares)
-);
-
-localStorage.setItem(
-"materiais",
-JSON.stringify(materiais)
-);
-
-localStorage.setItem(
-"cautelas",
-JSON.stringify(cautelas)
-);
-
-renderizar();
-}
-
+/**********************
+ * LOGIN
+ **********************/
 function entrar() {
+  const u = document.getElementById("usuario").value;
+  const s = document.getElementById("senha").value;
 
-let u =
-document.getElementById("usuario").value;
+  if (u === "farmacia" && s === "2356") {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("sistema").style.display = "block";
 
-let s =
-document.getElementById("senha").value;
-
-if (u === "farmacia" && s === "2356") {
-
-document.getElementById("login").style.display =
-"none";
-
-document.getElementById("sistema").style.display =
-"block";
-
-carregarMilitaresFirebase();
-
-} else {
-
-alert("Usuário ou senha incorretos");
-
-}
+    carregarTudo();
+  } else {
+    alert("Usuário ou senha incorretos");
+  }
 }
 
+/**********************
+ * CARREGAMENTO GERAL
+ **********************/
+async function carregarTudo() {
+  await Promise.all([
+    carregarMilitares(),
+    carregarMateriais(),
+    carregarCautelas()
+  ]);
+
+  renderizar();
+}
+
+/**********************
+ * MILITARES
+ **********************/
 async function cadastrarMilitar() {
+  const nome = document.getElementById("militarNome").value;
 
-let nome =
-document.getElementById("militarNome").value;
+  if (!nome) return alert("Digite um nome");
 
-if (!nome) {
-alert("Digite um nome");
-return;
+  await addDoc(collection(db, "militares"), {
+    nome
+  });
+
+  document.getElementById("militarNome").value = "";
+  await carregarMilitares();
 }
 
-alert("Passou da validação");
+async function carregarMilitares() {
+  const snap = await getDocs(collection(db, "militares"));
 
-try {
+  militares = [];
 
-alert("Tentando salvar...");
-
-await addDoc(
-collection(db, "militares"),
-{
-nome: nome
-}
-);
-
-document.getElementById("militarNome").value = "";
-
-await carregarMilitaresFirebase();
-
-alert("Militar salvo no Firebase!");
-
-} catch (erro) {
-
-alert(JSON.stringify(erro));
-
-alert(erro);
-
-alert(erro.message);
-
-}
-
-}
-function cadastrarMaterial() {
-
-let nome =
-document.getElementById("materialNome").value;
-
-let qtd =
-Number(
-document.getElementById("materialQtd").value
-);
-
-if (!nome || qtd <= 0) return;
-
-materiais.push({
-nome,
-qtd
-});
-
-document.getElementById("materialNome").value = "";
-document.getElementById("materialQtd").value = "";
-
-salvar();
-}
-
-function gerarCautela() {
-
-let militar =
-document.getElementById("militarSelect").value;
-
-let material =
-document.getElementById("materialSelect").value;
-
-let qtd =
-Number(
-document.getElementById("qtdCautela").value
-);
-
-let materialObj =
-materiais.find(
-m => m.nome === material
-);
-
-if (!materialObj) {
-alert("Material não encontrado");
-return;
-}
-
-if (qtd <= 0) {
-alert("Quantidade inválida");
-return;
-}
-
-if (materialObj.qtd < qtd) {
-alert("Estoque insuficiente");
-return;
-}
-
-materialObj.qtd -= qtd;
-
-cautelas.push({
-id: Date.now(),
-militar,
-material,
-qtd,
-data: new Date().toLocaleDateString(),
-status: "ATIVA",
-dataDevolucao: ""
-});
-
-document.getElementById("qtdCautela").value = "";
-
-salvar();
-}
-
-function descautelar(id) {
-
-let cautela =
-cautelas.find(
-c => c.id === id
-);
-
-if (!cautela) return;
-
-let material =
-materiais.find(
-m => m.nome === cautela.material
-);
-
-if (material) {
-
-material.qtd += cautela.qtd;
-
-}
-
-cautela.status = "DEVOLVIDA";
-
-cautela.dataDevolucao =
-new Date().toLocaleDateString();
-
-salvar();
-
-alert("Material devolvido com sucesso!");
+  snap.forEach(docSnap => {
+    militares.push({
+      id: docSnap.id,
+      nome: docSnap.data().nome
+    });
+  });
 }
 
 async function excluirMilitar(id) {
+  if (!confirm("Deseja excluir este militar?")) return;
 
-if (!confirm("Deseja excluir este militar?")) {
-return;
+  await deleteDoc(doc(db, "militares", id));
+
+  await carregarMilitares();
+  renderizar();
 }
 
-try {
+/**********************
+ * MATERIAIS
+ **********************/
+async function cadastrarMaterial() {
+  const nome = document.getElementById("materialNome").value;
+  const qtd = Number(document.getElementById("materialQtd").value);
 
-await deleteDoc(
-doc(db, "militares", id)
-);
+  if (!nome || qtd <= 0) return;
 
-await carregarMilitaresFirebase();
+  await addDoc(collection(db, "materiais"), {
+    nome,
+    qtd
+  });
 
-alert("Militar excluído!");
+  document.getElementById("materialNome").value = "";
+  document.getElementById("materialQtd").value = "";
 
-} catch (erro) {
-
-alert(
-"Erro ao excluir: " +
-erro.message
-);
-
+  await carregarMateriais();
 }
 
+async function carregarMateriais() {
+  const snap = await getDocs(collection(db, "materiais"));
+
+  materiais = [];
+
+  snap.forEach(docSnap => {
+    materiais.push({
+      id: docSnap.id,
+      nome: docSnap.data().nome,
+      qtd: docSnap.data().qtd
+    });
+  });
 }
 
-function excluirMaterial(nome) {
+async function excluirMaterial(id) {
+  if (!confirm("Deseja excluir o material?")) return;
 
-if (!confirm("Deseja excluir o material?")) {
-return;
+  await deleteDoc(doc(db, "materiais", id));
+
+  await carregarMateriais();
+  renderizar();
 }
 
-materiais = materiais.filter(
-m => m.nome !== nome
-);
+/**********************
+ * CAUTELAS
+ **********************/
+async function gerarCautela() {
+  const militar = document.getElementById("militarSelect").value;
+  const materialId = document.getElementById("materialSelect").value;
+  const qtd = Number(document.getElementById("qtdCautela").value);
 
-salvar();
+  if (!militar || !materialId || qtd <= 0) {
+    return alert("Preencha todos os campos corretamente");
+  }
 
-alert("Material excluído!");
+  const material = materiais.find(m => m.id === materialId);
 
+  if (!material) return alert("Material não encontrado");
+  if (material.qtd < qtd) return alert("Estoque insuficiente");
+
+  // atualiza estoque
+  await updateDoc(doc(db, "materiais", material.id), {
+    qtd: material.qtd - qtd
+  });
+
+  // cria cautela
+  await addDoc(collection(db, "cautelas"), {
+    militar,
+    material: material.nome,
+    qtd,
+    data: new Date().toLocaleDateString(),
+    status: "ATIVA",
+    dataDevolucao: ""
+  });
+
+  document.getElementById("qtdCautela").value = "";
+
+  await carregarCautelas();
+  await carregarMateriais();
+
+  renderizar();
 }
 
-function filtrarMilitares() {
+async function carregarCautelas() {
+  const snap = await getDocs(collection(db, "cautelas"));
 
-let filtro =
-document.getElementById(
-"pesquisaMilitar"
-).value.toLowerCase();
+  cautelas = [];
 
-document.querySelectorAll(
-"#listaMilitares li"
-).forEach(li => {
-
-li.style.display =
-li.textContent
-.toLowerCase()
-.includes(filtro)
-? ""
-: "none";
-
-});
-
+  snap.forEach(docSnap => {
+    cautelas.push({
+      id: docSnap.id,
+      ...docSnap.data()
+    });
+  });
 }
 
-function filtrarMateriais() {
+async function descautelar(id) {
+  const cautela = cautelas.find(c => c.id === id);
+  if (!cautela) return;
 
-let filtro =
-document.getElementById(
-"pesquisaMaterial"
-).value.toLowerCase();
+  const material = materiais.find(m => m.nome === cautela.material);
+  if (!material) return;
 
-document.querySelectorAll(
-"#listaMateriais li"
-).forEach(li => {
+  // devolve estoque
+  await updateDoc(doc(db, "materiais", material.id), {
+    qtd: material.qtd + cautela.qtd
+  });
 
-li.style.display =
-li.textContent
-.toLowerCase()
-.includes(filtro)
-? ""
-: "none";
+  // atualiza cautela
+  await updateDoc(doc(db, "cautelas", id), {
+    status: "DEVOLVIDA",
+    dataDevolucao: new Date().toLocaleDateString()
+  });
 
-});
+  await carregarCautelas();
+  await carregarMateriais();
 
+  renderizar();
 }
 
-function filtrarCautelas() {
+/**********************
+ * FILTROS
+ **********************/
+function filtrar(listaId, inputId) {
+  const filtro = document.getElementById(inputId).value.toLowerCase();
 
-let filtro =
-document.getElementById(
-"pesquisaCautela"
-).value.toLowerCase();
-
-document.querySelectorAll(
-"#listaCautelas li"
-).forEach(li => {
-
-li.style.display =
-li.textContent
-.toLowerCase()
-.includes(filtro)
-? ""
-: "none";
-
-});
-
+  document.querySelectorAll(`#${listaId} li`).forEach(li => {
+    li.style.display = li.textContent.toLowerCase().includes(filtro)
+      ? ""
+      : "none";
+  });
 }
 
+/**********************
+ * RENDER
+ **********************/
 function renderizar() {
-
-let lm =
-document.getElementById("listaMilitares");
-
-if (lm) {
-
-lm.innerHTML = "";
-
-militares.forEach(m => {
-
-lm.innerHTML += `
-<li>
-
-<button
-onclick="
-document.getElementById('militarSelect').value='${m.nome}'
-">
-${m.nome}
-</button>
-
-<button
-onclick="excluirMilitar('${m.id}')"
-style="
-background:red;
-margin-left:10px;
-"
->
-🗑️
-</button>
-
-</li>
-`;
-
-});
-
-}
-let lmat =
-document.getElementById("listaMateriais");
-
-if (lmat) {
-
-lmat.innerHTML = "";
-
-materiais.forEach(m => {
-
-lmat.innerHTML += `
-<li
-style="
-list-style:none;
-margin-bottom:10px;
-padding:10px;
-background:white;
-border-radius:8px;
-border:1px solid #ccc;
-">
-
-<b>${m.nome}</b><br>
-
-Estoque: ${m.qtd}
-
-<button
-style="
-background:red;
-float:right;
-"
-onclick="excluirMaterial('${m.nome}')"
->
-🗑️
-</button>
-
-</li>
-`;
-
-});
-
+  renderMilitares();
+  renderMateriais();
+  renderSelects();
+  renderCautelas();
 }
 
-let sm =
-document.getElementById("militarSelect");
+function renderMilitares() {
+  const el = document.getElementById("listaMilitares");
+  if (!el) return;
 
-if (sm) {
+  el.innerHTML = "";
 
-sm.innerHTML = "";
+  militares.forEach(m => {
+    el.innerHTML += `
+      <li>
+        <button onclick="document.getElementById('militarSelect').value='${m.nome}'">
+          ${m.nome}
+        </button>
 
-militares.forEach(m => {
-
-sm.innerHTML += `
-
-<option>${m.nome}</option>
-`;
-
-});
+        <button onclick="excluirMilitar('${m.id}')" style="background:red;margin-left:10px;">
+          🗑️
+        </button>
+      </li>
+    `;
+  });
 }
 
-let sMat =
-document.getElementById("materialSelect");
+function renderMateriais() {
+  const el = document.getElementById("listaMateriais");
+  if (!el) return;
 
-if (sMat) {
+  el.innerHTML = "";
 
-sMat.innerHTML = "";
+  materiais.forEach(m => {
+    el.innerHTML += `
+      <li style="padding:10px;background:#fff;border-radius:8px;margin-bottom:10px;">
+        <b>${m.nome}</b><br>
+        Estoque: ${m.qtd}
 
-materiais.forEach(m => {
-
-sMat.innerHTML += `
-
-<option>${m.nome}</option>
-`;
-
-});
+        <button onclick="excluirMaterial('${m.id}')" style="float:right;background:red;">
+          🗑️
+        </button>
+      </li>
+    `;
+  });
 }
 
-let lc =
-document.getElementById("listaCautelas");
+function renderSelects() {
+  const sm = document.getElementById("militarSelect");
+  const smat = document.getElementById("materialSelect");
 
-if (lc) {
+  if (sm) {
+    sm.innerHTML = "";
+    militares.forEach(m => {
+      sm.innerHTML += `<option>${m.nome}</option>`;
+    });
+  }
 
-lc.innerHTML = "";
-
-cautelas.forEach((c) => {
-
-lc.innerHTML += `
-<li
-style="
-list-style:none;
-margin-bottom:15px;
-padding:15px;
-background:white;
-border-radius:10px;
-border:1px solid #ccc;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
-">
-
-<b>👤 ${c.militar}</b><br><br>
-
-📦 Material: ${c.material}<br>
-
-🔢 Quantidade: ${c.qtd}<br>
-
-📅 Retirada: ${c.data}<br>
-
-📌 Status: ${c.status}
-
-${c.dataDevolucao ?
-`<br>✅ Devolvido em: ${c.dataDevolucao}`
-: ""
+  if (smat) {
+    smat.innerHTML = "";
+    materiais.forEach(m => {
+      smat.innerHTML += `<option value="${m.id}">${m.nome}</option>`;
+    });
+  }
 }
 
-<br><br>
+function renderCautelas() {
+  const el = document.getElementById("listaCautelas");
+  if (!el) return;
 
-<button
-onclick="gerarPdfCautela(${c.id})">
-📄 PDF
-</button>
+  el.innerHTML = "";
 
-${
-c.status !== "DEVOLVIDA"
-?
-`
-<button
-onclick="descautelar(${c.id})">
-↩️ Descautelar
-</button>
-`
-:
-""
+  cautelas.forEach(c => {
+    el.innerHTML += `
+      <li style="padding:15px;background:#fff;margin-bottom:10px;border-radius:10px;">
+        <b>👤 ${c.militar}</b><br>
+        📦 ${c.material}<br>
+        🔢 ${c.qtd}<br>
+        📅 ${c.data}<br>
+        📌 ${c.status}
+
+        ${c.status !== "DEVOLVIDA" ? `
+          <button onclick="descautelar('${c.id}')">↩️ Devolver</button>
+        ` : ""}
+
+        <button onclick="gerarPdfCautela('${c.id}')">📄 PDF</button>
+        <button onclick="gerarQRCode('${c.id}')">📱 QR</button>
+      </li>
+    `;
+  });
 }
 
-<button
-onclick="gerarQRCode(${c.id})">
-📱 QR Code
-</button>
-
-</li>
-`;
-
-});
-
-}
-}
-
-async function carregarMilitaresFirebase() {
-
-try {
-
-const querySnapshot =
-await getDocs(
-collection(db, "militares")
-);
-
-militares = [];
-
-querySnapshot.forEach((doc) => {
-
-const dados = doc.data();
-
-militares.push({
-id: doc.id,
-nome: dados.nome
-});
-
-});
-
-renderizar();
-
-} catch (erro) {
-
-alert(
-"Erro ao carregar militares: " +
-erro.message
-);
-
-}
-
-}
+/**********************
+ * PDF
+ **********************/
 function gerarPdfCautela(id) {
+  const c = cautelas.find(x => x.id === id);
+  if (!c) return;
 
-let cautela =
-cautelas.find(
-c => c.id === id
-);
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
 
-if (!cautela) {
+  doc.text("TERMO DE CAUTELA", 70, 20);
+  doc.text(`Militar: ${c.militar}`, 20, 50);
+  doc.text(`Material: ${c.material}`, 20, 70);
+  doc.text(`Qtd: ${c.qtd}`, 20, 90);
+  doc.text(`Data: ${c.data}`, 20, 110);
 
-alert("Cautela não encontrada");
-
-return;
-
+  doc.save(`cautela-${c.militar}.pdf`);
 }
 
-const { jsPDF } =
-window.jspdf;
+/**********************
+ * QR CODE
+ **********************/
+function gerarQRCode(id) {
+  const c = cautelas.find(x => x.id === id);
+  if (!c) return;
 
-const doc =
-new jsPDF();
+  const texto =
+    `Militar: ${c.militar}\nMaterial: ${c.material}\nQtd: ${c.qtd}`;
 
-doc.setFontSize(16);
+  const w = window.open("", "_blank", "width=400,height=400");
 
-doc.text(
-"TERMO DE CAUTELA",
-70,
-20
-);
+  w.document.write(`<div id="qrcode"></div>`);
 
-doc.setFontSize(12);
-
-doc.text(
-`Militar: ${cautela.militar}`,
-20,
-50
-);
-
-doc.text(
-`Material: ${cautela.material}`,
-20,
-70
-);
-
-doc.text(
-`Quantidade: ${cautela.qtd}`,
-20,
-90
-);
-
-doc.text(
-`Data: ${cautela.data}`,
-20,
-110
-);
-
-doc.text(
-`Status: ${cautela.status}`,
-20,
-130
-);
-
-doc.text(
-"Assinatura do Militar:",
-20,
-170
-);
-
-doc.line(
-20,
-180,
-120,
-180
-);
-
-doc.save(
-`Cautela-${cautela.militar}.pdf`
-);
-
-}
-
-  function gerarQRCode(id) {
-
-let cautela =
-cautelas.find(
-c => c.id === id
-);
-
-if (!cautela) return;
-
-let texto =
-
-"Militar: " +
-cautela.militar +
-
-"\nMaterial: " +
-cautela.material +
-
-"\nQuantidade: " +
-cautela.qtd +
-
-"\nData: " +
-cautela.data;
-
-let janela =
-window.open(
-"",
-"QRCode",
-"width=400,height=500"
-);
-
-janela.document.write(
-'<div id="qrcode"></div>'
-);
-
-new QRCode(
-janela.document.getElementById(
-"qrcode"
-),
-texto
-);
-
-}
-  
-async function gerarPdfUltimaCautela() {
-
-if (cautelas.length === 0) {
-alert("Nenhuma cautela cadastrada.");
-return;
-}
-
-const cautela =
-cautelas[cautelas.length - 1];
-
-const { jsPDF } =
-window.jspdf;
-
-const doc =
-new jsPDF();
-
-doc.setFontSize(16);
-doc.text(
-"TERMO DE CAUTELA",
-70,
-20
-);
-
-doc.setFontSize(12);
-
-doc.text(
-`Militar: ${cautela.militar}`,
-20,
-50
-);
-
-doc.text(
-`Material: ${cautela.material}`,
-20,
-70
-);
-
-doc.text(
-`Quantidade: ${cautela.qtd}`,
-20,
-90
-);
-
-doc.text(
-`Data: ${cautela.data}`,
-20,
-110
-);
-
-doc.text(
-"Assinatura do Militar:",
-20,
-160
-);
-
-doc.line(
-20,
-170,
-120,
-170
-);
-
-doc.save(
-`Cautela-${cautela.militar}.pdf`
-);
+  new QRCode(w.document.getElementById("qrcode"), texto);
 }
