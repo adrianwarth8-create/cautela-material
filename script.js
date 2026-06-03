@@ -311,13 +311,13 @@ lm.innerHTML += `
 
 <button
 onclick="
-document.getElementById('militarSelect').value='${m}'
+document.getElementById('militarSelect').value='${m.nome}'
 ">
-${m}
+${m.nome}
 </button>
 
 <button
-onclick="excluirMilitar('${m}')"
+onclick="excluirMilitar('${m.id}')"
 style="
 background:red;
 margin-left:10px;
@@ -384,7 +384,7 @@ militares.forEach(m => {
 
 sm.innerHTML += `
 
-<option>${m}</option>
+<option>${m.nome}</option>
 `;
 
 });
@@ -491,11 +491,10 @@ querySnapshot.forEach((doc) => {
 
 const dados = doc.data();
 
-if (dados.nome) {
-
-militares.push(dados.nome);
-
-}
+militares.push({
+id: doc.id,
+nome: dados.nome
+});
 
 });
 
@@ -511,7 +510,6 @@ erro.message
 }
 
 }
-
 function gerarPdfCautela(id) {
 
 let cautela =
