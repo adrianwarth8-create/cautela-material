@@ -197,19 +197,30 @@ salvar();
 alert("Material devolvido com sucesso!");
 }
 
-function excluirMilitar(nome) {
+async function excluirMilitar(id) {
 
-if (!confirm("Deseja excluir o militar " + nome + "?")) {
+if (!confirm("Deseja excluir este militar?")) {
 return;
 }
 
-militares = militares.filter(
-m => m !== nome
+try {
+
+await deleteDoc(
+doc(db, "militares", id)
 );
 
-salvar();
+await carregarMilitaresFirebase();
 
-alert("Militar excluído com sucesso!");
+alert("Militar excluído!");
+
+} catch (erro) {
+
+alert(
+"Erro ao excluir: " +
+erro.message
+);
+
+}
 
 }
 
