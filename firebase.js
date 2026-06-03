@@ -26,3 +26,16 @@ window.addDoc = addDoc;
 window.getDocs = getDocs;
 
 console.log("Firebase conectado!");
+
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+deleteDoc,
+doc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+window.deleteDoc = deleteDoc;
+window.doc = doc;
