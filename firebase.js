@@ -26,5 +26,3 @@ window.addDoc = addDoc;
 window.getDocs = getDocs;
 
 console.log("Firebase conectado!");
-
-window.getDocs = getDocs;
