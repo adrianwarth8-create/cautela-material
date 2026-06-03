@@ -459,7 +459,8 @@ onclick="descautelar(${c.id})">
 ""
 }
 
-<button disabled>
+<button
+onclick="gerarQRCode(${c.id})">
 📱 QR Code
 </button>
 
@@ -583,6 +584,49 @@ doc.line(
 
 doc.save(
 `Cautela-${cautela.militar}.pdf`
+);
+
+}
+
+  function gerarQRCode(id) {
+
+let cautela =
+cautelas.find(
+c => c.id === id
+);
+
+if (!cautela) return;
+
+let texto =
+
+"Militar: " +
+cautela.militar +
+
+"\nMaterial: " +
+cautela.material +
+
+"\nQuantidade: " +
+cautela.qtd +
+
+"\nData: " +
+cautela.data;
+
+let janela =
+window.open(
+"",
+"QRCode",
+"width=400,height=500"
+);
+
+janela.document.write(
+'<div id="qrcode"></div>'
+);
+
+new QRCode(
+janela.document.getElementById(
+"qrcode"
+),
+texto
 );
 
 }
