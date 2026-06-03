@@ -54,18 +54,34 @@ alert("Usuário ou senha incorretos");
 }
 }
 
-function cadastrarMilitar() {
+async function cadastrarMilitar() {
 
 let nome =
 document.getElementById("militarNome").value;
 
 if (!nome) return;
 
-militares.push(nome);
+try {
+
+await addDoc(
+collection(db, "militares"),
+{
+nome: nome
+}
+);
+
+alert("Militar salvo no Firebase!");
 
 document.getElementById("militarNome").value = "";
 
-salvar();
+} catch (erro) {
+
+console.error(erro);
+
+alert("Erro ao salvar militar");
+
+}
+
 }
 
 function cadastrarMaterial() {
