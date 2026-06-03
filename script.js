@@ -45,7 +45,7 @@ document.getElementById("login").style.display =
 document.getElementById("sistema").style.display =
 "block";
 
-renderizar();
+carregarMilitaresFirebase();
 
 } else {
 
@@ -320,7 +320,43 @@ lc.appendChild(li);
 
 }
 
+async function carregarMilitaresFirebase() {
+
+try {
+
+const querySnapshot =
+await getDocs(
+collection(db, "militares")
+);
+
+militares = [];
+
+querySnapshot.forEach((doc) => {
+
+const dados = doc.data();
+
+if (dados.nome) {
+
+militares.push(dados.nome);
+
+}
+
+});
+
 renderizar();
+
+} catch (erro) {
+
+alert(
+"Erro ao carregar militares: " +
+erro.message
+);
+
+}
+
+}
+
+carregarMilitaresFirebase();
 
 async function gerarPdfUltimaCautela() {
 
