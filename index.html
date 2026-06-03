@@ -3,133 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sistema de Cautela</title>
+<title>Sistema de Cautela - 3º GAC AP</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
+
 <body>
 
-<div id="login">
+<!-- LOGIN -->
+<div id="login" class="login-box">
 
-<h2>Login</h2>
+  <h2>🔐 Login do Sistema</h2>
 
-<input id="usuario" placeholder="Usuário">
+  <input id="usuario" placeholder="Usuário">
+  <input id="senha" type="password" placeholder="Senha">
 
-<input
-id="senha"
-type="password"
-placeholder="Senha">
-
-<button onclick="entrar()">
-Entrar
-</button>
+  <button onclick="entrar()">Entrar</button>
 
 </div>
 
+<!-- SISTEMA -->
 <div id="sistema" style="display:none">
 
-<div class="cabecalho">
+  <!-- CABEÇALHO -->
+  <header class="cabecalho">
 
-<img
-src="brasao.png"
-alt="Brasão 3º GAC AP">
+    <img src="brasao.png" alt="Brasão">
 
-<h1>Sistema de Cautela</h1>
+    <div>
+      <h1>Sistema de Cautela</h1>
+      <p>3º GAC AP</p>
+    </div>
 
-</div>
+  </header>
 
-<hr>
+  <hr>
 
-<h2>Militares</h2>
+  <!-- MILITARES -->
+  <section>
+    <h2>👤 Militares</h2>
 
-<input
-id="militarNome"
-placeholder="Nome do Militar">
+    <input id="militarNome" placeholder="Nome do Militar">
+    <button onclick="cadastrarMilitar()">Cadastrar</button>
 
-<button onclick="cadastrarMilitar()">
-Cadastrar Militar
-</button>
+    <input id="pesquisaMilitar"
+           placeholder="Pesquisar Militar"
+           onkeyup="filtrar('listaMilitares','pesquisaMilitar')">
 
-<input
-id="pesquisaMilitar"
-placeholder="Pesquisar Militar"
-onkeyup="filtrarMilitares()">
+    <ul id="listaMilitares"></ul>
+  </section>
 
-<ul id="listaMilitares"></ul>
+  <hr>
 
-<hr>
+  <!-- MATERIAIS -->
+  <section>
+    <h2>📦 Materiais</h2>
 
-<h2>Materiais</h2>
+    <input id="materialNome" placeholder="Nome do Material">
+    <input id="materialQtd" type="number" placeholder="Quantidade">
 
-<input
-id="materialNome"
-placeholder="Nome do Material">
+    <button onclick="cadastrarMaterial()">Cadastrar</button>
 
-<input
-id="materialQtd"
-type="number"
-placeholder="Quantidade">
+    <input id="pesquisaMaterial"
+           placeholder="Pesquisar Material"
+           onkeyup="filtrar('listaMateriais','pesquisaMaterial')">
 
-<button onclick="cadastrarMaterial()">
-Cadastrar Material
-</button>
+    <ul id="listaMateriais"></ul>
+  </section>
 
-<input
-id="pesquisaMaterial"
-placeholder="Pesquisar Material"
-onkeyup="filtrarMateriais()">
+  <hr>
 
-<ul id="listaMateriais"></ul>
+  <!-- CAUTELA -->
+  <section>
+    <h2>📋 Nova Cautela</h2>
 
-<hr>
+    <select id="militarSelect"></select>
+    <select id="materialSelect"></select>
 
-<h2>Nova Cautela</h2>
+    <input id="qtdCautela" type="number" placeholder="Quantidade">
 
-<select id="militarSelect"></select>
+    <button onclick="gerarCautela()">Gerar Cautela</button>
+    <button onclick="gerarPdfUltimaCautela()">Gerar PDF Última</button>
+  </section>
 
-<select id="materialSelect"></select>
+  <hr>
 
-<input
-id="qtdCautela"
-type="number"
-placeholder="Quantidade">
+  <!-- LISTA CAUTELAS -->
+  <section>
+    <h2>📑 Cautelas</h2>
 
-<button onclick="gerarCautela()">
-Gerar Cautela
-</button>
+    <input id="pesquisaCautela"
+           placeholder="Pesquisar Cautela"
+           onkeyup="filtrar('listaCautelas','pesquisaCautela')">
 
-<button onclick="gerarPdfUltimaCautela()">
-Gerar PDF
-</button>
-
-<hr>
-
-<h2>Cautelas</h2>
-
-<input
-id="pesquisaCautela"
-placeholder="Pesquisar Cautela"
-onkeyup="filtrarCautelas()">
-
-<ul id="listaCautelas"></ul>
+    <ul id="listaCautelas"></ul>
+  </section>
 
 </div>
+
+<!-- SCRIPTS EXTERNOS -->
 
 <!-- PDF -->
-
 <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
-<!-- QR Code -->
-
+<!-- QR CODE -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<!-- Firebase -->
-
+<!-- FIREBASE -->
 <script type="module" src="firebase.js"></script>
 
-<!-- Sistema -->
-
+<!-- SISTEMA -->
 <script src="script.js?v=999"></script>
 
 </body>
