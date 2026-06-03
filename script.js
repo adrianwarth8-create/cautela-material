@@ -470,6 +470,8 @@ onclick="gerarQRCode(${c.id})">
 });
 
 }
+}
+
 async function carregarMilitaresFirebase() {
 
 try {
