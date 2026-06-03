@@ -79,7 +79,12 @@ alert("Militar salvo no Firebase!");
 
 } catch (erro) {
 
-alert("ERRO: " + erro);
+alert(
+"ERRO:\n" +
+erro.name +
+"\n\n" +
+erro.message
+);
 
 }
 
