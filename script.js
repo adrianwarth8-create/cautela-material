@@ -56,10 +56,15 @@ alert("Usuário ou senha incorretos");
 
 async function cadastrarMilitar() {
 
+alert("Botão clicado");
+
 let nome =
 document.getElementById("militarNome").value;
 
-if (!nome) return;
+if (!nome) {
+alert("Digite um nome");
+return;
+}
 
 try {
 
@@ -72,13 +77,9 @@ nome: nome
 
 alert("Militar salvo no Firebase!");
 
-document.getElementById("militarNome").value = "";
-
 } catch (erro) {
 
-console.error(erro);
-
-alert("Erro ao salvar militar");
+alert("ERRO: " + erro);
 
 }
 
