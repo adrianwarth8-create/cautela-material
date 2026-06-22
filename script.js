@@ -24,7 +24,7 @@ let cautelas = [];
 /**********************
  * LOGIN
  **********************/
-function entrar() {
+async function entrar() {
 
 let usuario =
 document.getElementById("usuario").value;
@@ -48,14 +48,17 @@ return;
 
 usuarioLogado = encontrado;
 
-document.getElementById("login").style.display = "none";
+document.getElementById("login").style.display =
+"none";
 
-document.getElementById("sistema").style.display = "block";
+document.getElementById("sistema").style.display =
+"block";
 
 aplicarPermissoes();
 
-renderizar();
+await carregarTudo();
 
+    renderizar();
 }
 
 /**********************
@@ -104,6 +107,7 @@ async function cadastrarMilitar() {
 
   document.getElementById("militarNome").value = "";
   await carregarMilitares();
+    renderizar();
 }
 
 async function carregarMilitares() {
@@ -135,8 +139,7 @@ async function excluirMilitar(id) {
   );
 
   await carregarMilitares();
-
-  renderizar();
+renderizar();
 
 }
 /**********************
@@ -157,6 +160,7 @@ async function cadastrarMaterial() {
   document.getElementById("materialQtd").value = "";
 
   await carregarMateriais();
+  renderizar();
 }
 
 async function carregarMateriais() {
@@ -422,3 +426,8 @@ function gerarQRCode(id) {
 
   new QRCode(w.document.getElementById("qrcode"), texto);
 }
+window.onload = () => {
+
+console.log("Sistema iniciado");
+
+};
