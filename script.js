@@ -484,6 +484,22 @@ window.onload = () => {
   console.log("Sistema iniciado");
 
 };
+
+function sair() {
+
+  usuarioLogado = null;
+
+  document.getElementById("login").style.display =
+    "block";
+
+  document.getElementById("sistema").style.display =
+    "none";
+
+  document.getElementById("usuario").value = "";
+  document.getElementById("senha").value = "";
+
+}
+
 window.entrar = entrar;
 window.cadastrarMilitar = cadastrarMilitar;
 window.cadastrarMaterial = cadastrarMaterial;
@@ -495,3 +511,4 @@ window.gerarPdfCautela = gerarPdfCautela;
 window.gerarPdfUltimaCautela = gerarPdfUltimaCautela;
 window.gerarQRCode = gerarQRCode;
 window.filtrar = filtrar;
+window.sair = sair;
