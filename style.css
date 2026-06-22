@@ -165,3 +165,105 @@ hr{
     }
 
 }
+/* DASHBOARD */
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card-dashboard{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+
+.card-dashboard h3{
+    margin:0;
+    font-size:16px;
+    color:#555;
+}
+
+.card-dashboard span{
+    font-size:32px;
+    font-weight:bold;
+    color:#006400;
+}
+
+/* CARTÕES */
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.12);
+}
+
+/* BOTÕES ESPECIAIS */
+
+.btn-excluir{
+    background:#d9534f;
+}
+
+.btn-excluir:hover{
+    background:#c9302c;
+}
+
+.btn-pdf{
+    background:#0d6efd;
+}
+
+.btn-pdf:hover{
+    background:#0b5ed7;
+}
+
+.btn-qr{
+    background:#fd7e14;
+}
+
+.btn-qr:hover{
+    background:#e96b02;
+}
+
+.btn-devolver{
+    background:#198754;
+}
+
+.btn-devolver:hover{
+    background:#157347;
+}
+
+/* USUÁRIO LOGADO */
+
+.usuario-logado{
+    background:white;
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:15px;
+    font-weight:bold;
+    text-align:right;
+    box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* ANIMAÇÃO */
+
+.card,
+.card-dashboard,
+#listaMilitares li,
+#listaMateriais li,
+#listaCautelas li{
+    transition:all .2s ease;
+}
+
+.card:hover,
+.card-dashboard:hover,
+#listaMilitares li:hover,
+#listaMateriais li:hover,
+#listaCautelas li:hover{
+    transform:translateY(-2px);
+}
