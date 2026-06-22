@@ -1,165 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Sistema de Cautela - 3º GAC AP</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
 <body>
 
 <!-- LOGIN -->
+
 <div id="login" class="login-box">
 
-    <h2>🔐 Login do Sistema</h2>
+```
+<h2>🔐 Login do Sistema</h2>
 
-    <input id="usuario" placeholder="Usuário">
-    <input id="senha" type="password" placeholder="Senha">
+<input
+    id="usuario"
+    placeholder="Usuário">
 
-    <button onclick="entrar()">Entrar</button>
+<input
+    id="senha"
+    type="password"
+    placeholder="Senha">
+
+<button onclick="entrar()">
+    Entrar
+</button>
+```
 
 </div>
 
 <!-- SISTEMA -->
+
 <div id="sistema" style="display:none">
 
-    <!-- CABEÇALHO -->
-    <header class="cabecalho">
+```
+<!-- CABEÇALHO -->
+<header class="cabecalho">
 
-        <img src="brasao.png" alt="Brasão">
+    <img
+        src="brasao.png"
+        alt="Brasão">
 
-        <div>
-            <h1>Sistema de Cautela</h1>
-            <p>3º GAC AP</p>
-        </div>
-
-    </header>
-
-    <!-- USUÁRIO -->
-    <div class="usuario-logado" id="usuarioLogado">
-        Usuário: ---
+    <div>
+        <h1>Sistema de Cautela</h1>
+        <p>3º GAC AP</p>
     </div>
 
-    <!-- DASHBOARD -->
-    <div class="dashboard">
+</header>
 
-        <div class="card-dashboard">
-            <h3>👤 Militares</h3>
-            <span id="totalMilitares">0</span>
-        </div>
+<!-- USUÁRIO -->
+<div class="usuario-logado" id="usuarioLogado">
+    Usuário: ---
+</div>
 
-        <div class="card-dashboard">
-            <h3>📦 Materiais</h3>
-            <span id="totalMateriais">0</span>
-        </div>
+<!-- BOTÃO SAIR -->
+<button class="btn-sair" onclick="sair()">
+    🚪 Sair
+</button>
 
-        <div class="card-dashboard">
-            <h3>📋 Cautelas Ativas</h3>
-            <span id="totalAtivas">0</span>
-        </div>
+<!-- DASHBOARD -->
+<div class="dashboard">
 
-        <div class="card-dashboard">
-            <h3>✅ Devolvidas</h3>
-            <span id="totalDevolvidas">0</span>
-        </div>
-
+    <div class="card-dashboard">
+        <h3>👤 Militares</h3>
+        <span id="totalMilitares">0</span>
     </div>
 
-    <hr>
+    <div class="card-dashboard">
+        <h3>📦 Materiais</h3>
+        <span id="totalMateriais">0</span>
+    </div>
 
-    <!-- MILITARES -->
-    <section>
+    <div class="card-dashboard">
+        <h3>📋 Cautelas Ativas</h3>
+        <span id="totalAtivas">0</span>
+    </div>
 
-        <h2>👤 Militares</h2>
+    <div class="card-dashboard">
+        <h3>✅ Devolvidas</h3>
+        <span id="totalDevolvidas">0</span>
+    </div>
 
-        <input id="militarNome" placeholder="Nome do Militar">
+</div>
 
-        <button
-            class="somenteGestor"
-            onclick="cadastrarMilitar()">
-            Cadastrar Militar
-        </button>
+<hr>
 
-        <input
-            id="pesquisaMilitar"
-            placeholder="Pesquisar Militar"
-            onkeyup="filtrar('listaMilitares','pesquisaMilitar')">
+<!-- MILITARES -->
+<section>
 
-        <ul id="listaMilitares"></ul>
+    <h2>👤 Militares</h2>
 
-    </section>
+    <input
+        id="militarNome"
+        placeholder="Nome do Militar">
 
-    <hr>
+    <button
+        class="somenteGestor"
+        onclick="cadastrarMilitar()">
+        Cadastrar Militar
+    </button>
 
-    <!-- MATERIAIS -->
-    <section>
+    <input
+        id="pesquisaMilitar"
+        placeholder="Pesquisar Militar"
+        onkeyup="filtrar('listaMilitares','pesquisaMilitar')">
 
-        <h2>📦 Materiais</h2>
+    <ul id="listaMilitares"></ul>
 
-        <input id="materialNome" placeholder="Nome do Material">
+</section>
 
-        <input
-            id="materialQtd"
-            type="number"
-            placeholder="Quantidade">
+<hr>
 
-        <button
-            class="somenteGestor"
-            onclick="cadastrarMaterial()">
-            Cadastrar Material
-        </button>
+<!-- MATERIAIS -->
+<section>
 
-        <input
-            id="pesquisaMaterial"
-            placeholder="Pesquisar Material"
-            onkeyup="filtrar('listaMateriais','pesquisaMaterial')">
+    <h2>📦 Materiais</h2>
 
-        <ul id="listaMateriais"></ul>
+    <input
+        id="materialNome"
+        placeholder="Nome do Material">
 
-    </section>
+    <input
+        id="materialQtd"
+        type="number"
+        placeholder="Quantidade">
 
-    <hr>
+    <button
+        class="somenteGestor"
+        onclick="cadastrarMaterial()">
+        Cadastrar Material
+    </button>
 
-    <!-- NOVA CAUTELA -->
-    <section>
+    <input
+        id="pesquisaMaterial"
+        placeholder="Pesquisar Material"
+        onkeyup="filtrar('listaMateriais','pesquisaMaterial')">
 
-        <h2>📋 Nova Cautela</h2>
+    <ul id="listaMateriais"></ul>
 
-        <select id="militarSelect"></select>
+</section>
 
-        <select id="materialSelect"></select>
+<hr>
 
-        <input
-            id="qtdCautela"
-            type="number"
-            placeholder="Quantidade">
+<!-- NOVA CAUTELA -->
+<section>
 
-        <button onclick="gerarCautela()">
-            Gerar Cautela
-        </button>
+    <h2>📋 Nova Cautela</h2>
 
-    </section>
+    <select id="militarSelect"></select>
 
-    <hr>
+    <select id="materialSelect"></select>
 
-    <!-- CAUTELAS -->
-    <section>
+    <input
+        id="qtdCautela"
+        type="number"
+        placeholder="Quantidade">
 
-        <h2>📑 Cautelas</h2>
+    <button onclick="gerarCautela()">
+        Gerar Cautela
+    </button>
 
-        <input
-            id="pesquisaCautela"
-            placeholder="Pesquisar Cautela"
-            onkeyup="filtrar('listaCautelas','pesquisaCautela')">
+    <button onclick="gerarPdfUltimaCautela()">
+        📄 PDF Última Cautela
+    </button>
 
-        <ul id="listaCautelas"></ul>
+</section>
 
-    </section>
+<hr>
+
+<!-- CAUTELAS -->
+<section>
+
+    <h2>📑 Cautelas</h2>
+
+    <input
+        id="pesquisaCautela"
+        placeholder="Pesquisar Cautela"
+        onkeyup="filtrar('listaCautelas','pesquisaCautela')">
+
+    <ul id="listaCautelas"></ul>
+
+</section>
+```
 
 </div>
 
 <!-- PDF -->
+
 <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
 <!-- QR CODE -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <!-- FIREBASE -->
+
 <script type="module" src="firebase.js"></script>
 
 <!-- SISTEMA -->
+
 <script src="script.js?v=1000"></script>
 
 </body>
+</html>
