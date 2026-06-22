@@ -1,3 +1,7 @@
+/* =========================
+   CONFIGURAÇÃO GERAL
+========================= */
+
 body{
     font-family: Arial, sans-serif;
     background: #f0f2f5;
@@ -5,7 +9,9 @@ body{
     padding: 20px;
 }
 
-/* LOGIN */
+/* =========================
+   LOGIN
+========================= */
 
 #login{
     max-width: 400px;
@@ -18,16 +24,21 @@ body{
 
 #login h2{
     text-align: center;
+    color: #006400;
 }
 
-/* SISTEMA */
+/* =========================
+   SISTEMA
+========================= */
 
 #sistema{
     max-width: 1200px;
     margin: auto;
 }
 
-/* CABEÇALHO */
+/* =========================
+   CABEÇALHO
+========================= */
 
 .cabecalho{
     display: flex;
@@ -38,6 +49,7 @@ body{
     padding: 20px;
     border-radius: 12px;
     margin-bottom: 20px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
 .cabecalho img{
@@ -47,9 +59,56 @@ body{
 
 .cabecalho h1{
     margin: 0;
+    font-size: 28px;
 }
 
-/* CAMPOS */
+/* =========================
+   USUÁRIO LOGADO
+========================= */
+
+.usuario-logado{
+    text-align: right;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #006400;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card-dashboard{
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card-dashboard h3{
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.card-dashboard span{
+    display: block;
+    margin-top: 10px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #006400;
+}
+
+/* =========================
+   CAMPOS
+========================= */
 
 input,
 select{
@@ -60,36 +119,72 @@ select{
     border: 1px solid #ccc;
     border-radius: 8px;
     box-sizing: border-box;
+    font-size: 15px;
 }
 
-/* BOTÕES */
+input:focus,
+select:focus{
+    outline: none;
+    border-color: #006400;
+    box-shadow: 0 0 5px rgba(0,100,0,0.3);
+}
+
+/* =========================
+   BOTÕES
+========================= */
 
 button{
     background: #006400;
     color: white;
     border: none;
-    padding: 12px 18px;
+    padding: 10px 16px;
     border-radius: 8px;
     cursor: pointer;
     margin-right: 5px;
     margin-bottom: 5px;
     transition: 0.2s;
+    font-weight: bold;
 }
 
 button:hover{
     transform: scale(1.03);
 }
 
-/* TÍTULOS */
+.btn-excluir{
+    background: #c62828;
+}
+
+.btn-excluir:hover{
+    background: #b71c1c;
+}
+
+.btn-pdf{
+    background: #1565c0;
+}
+
+.btn-qrcode{
+    background: #6a1b9a;
+}
+
+.btn-devolver{
+    background: #ef6c00;
+}
+
+/* =========================
+   TÍTULOS
+========================= */
 
 h2{
     background: white;
     padding: 12px;
     border-left: 5px solid #006400;
     border-radius: 8px;
+    color: #333;
 }
 
-/* LISTAS */
+/* =========================
+   LISTAS
+========================= */
 
 ul{
     padding: 0;
@@ -99,38 +194,62 @@ li{
     list-style: none;
 }
 
-/* MILITARES */
+/* =========================
+   MILITARES
+========================= */
 
 #listaMilitares li{
-    background: white;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-}
-
-/* MATERIAIS */
-
-#listaMateriais li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: white;
     margin-bottom: 10px;
     padding: 12px;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* CAUTELAS */
+/* =========================
+   MATERIAIS
+========================= */
+
+#listaMateriais li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* =========================
+   CAUTELAS
+========================= */
 
 #listaCautelas li{
+    position: relative;
     background: white;
     margin-bottom: 15px;
-    padding: 15px;
+    padding: 18px;
     border-radius: 12px;
     border-left: 6px solid #006400;
     box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    transition: 0.2s;
 }
 
-/* STATUS */
+#listaCautelas li:hover{
+    transform: translateY(-2px);
+}
+
+#listaCautelas button{
+    margin-top: 10px;
+}
+
+/* =========================
+   STATUS
+========================= */
 
 .status-ativa{
     color: green;
@@ -142,7 +261,9 @@ li{
     font-weight: bold;
 }
 
-/* SEPARADORES */
+/* =========================
+   SEPARADORES
+========================= */
 
 hr{
     border: none;
@@ -151,9 +272,28 @@ hr{
     margin: 25px 0;
 }
 
-/* RESPONSIVO */
+/* =========================
+   SCROLL
+========================= */
+
+::-webkit-scrollbar{
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #006400;
+    border-radius: 10px;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
 
 @media(max-width:768px){
+
+    body{
+        padding: 10px;
+    }
 
     .cabecalho{
         flex-direction: column;
@@ -164,106 +304,18 @@ hr{
         width: 70px;
     }
 
-}
-/* DASHBOARD */
+    .cabecalho h1{
+        font-size: 22px;
+    }
 
-.dashboard{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-    margin-bottom:20px;
-}
+    button{
+        width: 100%;
+        margin-bottom: 8px;
+    }
 
-.card-dashboard{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    text-align:center;
-    box-shadow:0 3px 8px rgba(0,0,0,0.1);
-}
-
-.card-dashboard h3{
-    margin:0;
-    font-size:16px;
-    color:#555;
-}
-
-.card-dashboard span{
-    font-size:32px;
-    font-weight:bold;
-    color:#006400;
-}
-
-/* CARTÕES */
-
-.card{
-    background:white;
-    border-radius:12px;
-    padding:15px;
-    margin-bottom:15px;
-    box-shadow:0 3px 8px rgba(0,0,0,0.12);
-}
-
-/* BOTÕES ESPECIAIS */
-
-.btn-excluir{
-    background:#d9534f;
-}
-
-.btn-excluir:hover{
-    background:#c9302c;
-}
-
-.btn-pdf{
-    background:#0d6efd;
-}
-
-.btn-pdf:hover{
-    background:#0b5ed7;
-}
-
-.btn-qr{
-    background:#fd7e14;
-}
-
-.btn-qr:hover{
-    background:#e96b02;
-}
-
-.btn-devolver{
-    background:#198754;
-}
-
-.btn-devolver:hover{
-    background:#157347;
-}
-
-/* USUÁRIO LOGADO */
-
-.usuario-logado{
-    background:white;
-    padding:10px;
-    border-radius:8px;
-    margin-bottom:15px;
-    font-weight:bold;
-    text-align:right;
-    box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-
-/* ANIMAÇÃO */
-
-.card,
-.card-dashboard,
-#listaMilitares li,
-#listaMateriais li,
-#listaCautelas li{
-    transition:all .2s ease;
-}
-
-.card:hover,
-.card-dashboard:hover,
-#listaMilitares li:hover,
-#listaMateriais li:hover,
-#listaCautelas li:hover{
-    transform:translateY(-2px);
+    #listaMilitares li,
+    #listaMateriais li{
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
