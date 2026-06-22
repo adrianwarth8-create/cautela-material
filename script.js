@@ -1,3 +1,18 @@
+const usuarios = [
+{
+usuario: "gestor",
+senha: "1234",
+nivel: "GESTOR"
+},
+{
+usuario: "funcional",
+senha: "1234",
+nivel: "FUNCIONAL"
+}
+];
+
+let usuarioLogado = null;
+
 /**********************
  * SISTEMA CAUTELA - FIREBASE ONLY
  **********************/
@@ -10,17 +25,37 @@ let cautelas = [];
  * LOGIN
  **********************/
 function entrar() {
-  const u = document.getElementById("usuario").value;
-  const s = document.getElementById("senha").value;
 
-  if (u === "farmacia" && s === "2356") {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("sistema").style.display = "block";
+let usuario =
+document.getElementById("usuario").value;
 
-    carregarTudo();
-  } else {
-    alert("Usuário ou senha incorretos");
-  }
+let senha =
+document.getElementById("senha").value;
+
+let encontrado =
+usuarios.find(u =>
+u.usuario === usuario &&
+u.senha === senha
+);
+
+if (!encontrado) {
+
+alert("Usuário ou senha incorretos");
+
+return;
+
+}
+
+usuarioLogado = encontrado;
+
+document.getElementById("login").style.display = "none";
+
+document.getElementById("sistema").style.display = "block";
+
+aplicarPermissoes();
+
+renderizar();
+
 }
 
 /**********************
@@ -34,6 +69,25 @@ async function carregarTudo() {
   ]);
 
   renderizar();
+}
+
+function aplicarPermissoes() {
+
+if (usuarioLogado.nivel === "GESTOR") {
+
+return;
+
+}
+
+let botoesGestor =
+document.querySelectorAll(".somenteGestor");
+
+botoesGestor.forEach(botao => {
+
+botao.style.display = "none";
+
+});
+
 }
 
 /**********************
