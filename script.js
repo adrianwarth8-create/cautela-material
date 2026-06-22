@@ -292,6 +292,25 @@ function filtrar(listaId, inputId) {
   });
 }
 
+function atualizarDashboard() {
+
+document.getElementById("totalMilitares").innerText =
+militares.length;
+
+document.getElementById("totalMateriais").innerText =
+materiais.length;
+
+document.getElementById("totalAtivas").innerText =
+cautelas.filter(
+c => c.status === "ATIVA"
+).length;
+
+document.getElementById("totalDevolvidas").innerText =
+cautelas.filter(
+c => c.status === "DEVOLVIDA"
+).length;
+
+}
 /**********************
  * RENDER
  **********************/
