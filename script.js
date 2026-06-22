@@ -315,12 +315,15 @@ c => c.status === "DEVOLVIDA"
  * RENDER
  **********************/
 function renderizar() {
-  renderMilitares();
-  renderMateriais();
-  renderSelects();
-  renderCautelas();
-}
 
+renderMilitares();
+renderMateriais();
+renderSelects();
+renderCautelas();
+
+atualizarDashboard();
+
+}
 function renderMilitares() {
   const el = document.getElementById("listaMilitares");
   if (!el) return;
