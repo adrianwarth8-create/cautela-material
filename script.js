@@ -1,7 +1,7 @@
 const usuarios = [
 {
 usuario: "gestor",
-senha: "1234",
+senha: "135122",
 nivel: "GESTOR"
 },
 {
@@ -120,14 +120,25 @@ async function carregarMilitares() {
 }
 
 async function excluirMilitar(id) {
-  if (!confirm("Deseja excluir este militar?")) return;
 
-  await deleteDoc(doc(db, "militares", id));
+  if (usuarioLogado.nivel !== "GESTOR") {
+    alert("Acesso negado");
+    return;
+  }
+
+  if (!confirm("Deseja excluir este militar?")) {
+    return;
+  }
+
+  await deleteDoc(
+    doc(db, "militares", id)
+  );
 
   await carregarMilitares();
-  renderizar();
-}
 
+  renderizar();
+
+}
 /**********************
  * MATERIAIS
  **********************/
@@ -163,14 +174,25 @@ async function carregarMateriais() {
 }
 
 async function excluirMaterial(id) {
-  if (!confirm("Deseja excluir o material?")) return;
 
-  await deleteDoc(doc(db, "materiais", id));
+  if (usuarioLogado.nivel !== "GESTOR") {
+    alert("Acesso negado");
+    return;
+  }
+
+  if (!confirm("Deseja excluir este material?")) {
+    return;
+  }
+
+  await deleteDoc(
+    doc(db, "materiais", id)
+  );
 
   await carregarMateriais();
-  renderizar();
-}
 
+  renderizar();
+
+}
 /**********************
  * CAUTELAS
  **********************/
@@ -284,9 +306,13 @@ function renderMilitares() {
           ${m.nome}
         </button>
 
-        <button onclick="excluirMilitar('${m.id}')" style="background:red;margin-left:10px;">
-          🗑️
-        </button>
+        ${usuarioLogado?.nivel === "GESTOR" ? `
+<button
+onclick="excluirMilitar('${m.id}')"
+style="background:red;margin-left:10px;">
+🗑️
+</button>
+` : ""}
       </li>
     `;
   });
@@ -304,9 +330,13 @@ function renderMateriais() {
         <b>${m.nome}</b><br>
         Estoque: ${m.qtd}
 
-        <button onclick="excluirMaterial('${m.id}')" style="float:right;background:red;">
-          🗑️
-        </button>
+       ${usuarioLogado?.nivel === "GESTOR" ? `
+<button
+onclick="excluirMaterial('${m.id}')"
+style="float:right;background:red;">
+🗑️
+</button>
+` : ""}
       </li>
     `;
   });
