@@ -102,7 +102,8 @@ botao.style.display = "none";
  * MILITARES
  **********************/
 async function cadastrarMilitar() {
-  const nome = document.getElementById("militarNome").value;
+  const nome =
+document.getElementById("militarNome").value.trim();
 
   if (!nome) return alert("Digite um nome");
 
@@ -151,7 +152,8 @@ renderizar();
  * MATERIAIS
  **********************/
 async function cadastrarMaterial() {
-  const nome = document.getElementById("materialNome").value;
+  const nome =
+document.getElementById("materialNome").value.trim();
   const qtd = Number(document.getElementById("materialQtd").value);
 
   if (!nome || qtd <= 0) return;
@@ -226,13 +228,14 @@ async function gerarCautela() {
 
   // cria cautela
   await addDoc(collection(db, "cautelas"), {
-    militar,
-    material: material.nome,
-    qtd,
-    data: new Date().toLocaleDateString(),
-    status: "ATIVA",
-    dataDevolucao: ""
-  });
+  militar,
+  material: material.nome,
+  materialId: material.id,
+  qtd,
+  data: new Date().toLocaleDateString(),
+  status: "ATIVA",
+  dataDevolucao: ""
+});
 
   document.getElementById("qtdCautela").value = "";
 
@@ -259,7 +262,9 @@ async function descautelar(id) {
   const cautela = cautelas.find(c => c.id === id);
   if (!cautela) return;
 
-  const material = materiais.find(m => m.nome === cautela.material);
+  const material = materiais.find(
+  m => m.nome.trim() === cautela.material.trim()
+);
   if (!material) return;
 
   // devolve estoque
@@ -294,22 +299,31 @@ function filtrar(listaId, inputId) {
 
 function atualizarDashboard() {
 
-document.getElementById("totalMilitares").innerText =
-militares.length;
+  const militaresEl =
+    document.getElementById("totalMilitares");
 
-document.getElementById("totalMateriais").innerText =
-materiais.length;
+  const materiaisEl =
+    document.getElementById("totalMateriais");
 
-document.getElementById("totalAtivas").innerText =
-cautelas.filter(
-c => c.status === "ATIVA"
-).length;
+  const ativasEl =
+    document.getElementById("totalAtivas");
 
-document.getElementById("totalDevolvidas").innerText =
-cautelas.filter(
-c => c.status === "DEVOLVIDA"
-).length;
+  const devolvidasEl =
+    document.getElementById("totalDevolvidas");
 
+  if (militaresEl)
+    militaresEl.innerText = militares.length;
+
+  if (materiaisEl)
+    materiaisEl.innerText = materiais.length;
+
+  if (ativasEl)
+    ativasEl.innerText =
+      cautelas.filter(c => c.status === "ATIVA").length;
+
+  if (devolvidasEl)
+    devolvidasEl.innerText =
+      cautelas.filter(c => c.status === "DEVOLVIDA").length;
 }
 /**********************
  * RENDER
@@ -437,6 +451,18 @@ function gerarPdfCautela(id) {
   doc.save(`cautela-${c.militar}.pdf`);
 }
 
+function gerarPdfUltimaCautela() {
+
+  if (cautelas.length === 0) {
+    alert("Nenhuma cautela cadastrada.");
+    return;
+  }
+
+  const ultima = cautelas[cautelas.length - 1];
+
+  gerarPdfCautela(ultima.id);
+}
+
 /**********************
  * QR CODE
  **********************/
@@ -455,6 +481,17 @@ function gerarQRCode(id) {
 }
 window.onload = () => {
 
-console.log("Sistema iniciado");
+  console.log("Sistema iniciado");
 
 };
+window.entrar = entrar;
+window.cadastrarMilitar = cadastrarMilitar;
+window.cadastrarMaterial = cadastrarMaterial;
+window.gerarCautela = gerarCautela;
+window.descautelar = descautelar;
+window.excluirMilitar = excluirMilitar;
+window.excluirMaterial = excluirMaterial;
+window.gerarPdfCautela = gerarPdfCautela;
+window.gerarPdfUltimaCautela = gerarPdfUltimaCautela;
+window.gerarQRCode = gerarQRCode;
+window.filtrar = filtrar;
