@@ -47,7 +47,12 @@ return;
 }
 
 usuarioLogado = encontrado;
-
+document.getElementById("usuarioLogado").innerHTML =
+"👤 Usuário: " +
+usuarioLogado.usuario +
+" | Nível: " +
+usuarioLogado.nivel;
+    
 document.getElementById("login").style.display =
 "none";
 
